@@ -6,6 +6,11 @@
 //  Copyright © 2018 Treehouse. All rights reserved.
 //
 
+//TODO: Add randomizer for questions
+//TODO: Add randomizer for misdirectors
+//TODO: Implement algorithm to keep up with questions asked for each instance of QuestionProvider
+//TODO: Incorporate QuestionProvider into controller
+
 class QuestionProvider {
     let questions = [
         Question(prompt: "This was the only president to server more than two consecutive terms",
