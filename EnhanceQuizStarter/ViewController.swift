@@ -5,6 +5,7 @@
 //  Created by Pasan Premaratne on 3/12/18.
 //  Copyright © 2018 Treehouse. All rights reserved.
 //
+//  Refractored by Walter Allen on 9/5/18.
 
 import UIKit
 import GameKit
