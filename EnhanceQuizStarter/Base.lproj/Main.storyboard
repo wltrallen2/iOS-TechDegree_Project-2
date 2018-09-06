@@ -119,10 +119,13 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="falseButton" destination="qYh-2d-v8I" id="Kgl-kK-j1e"/>
-                        <outlet property="playAgainButton" destination="eic-Nx-foS" id="fZz-Md-Y70"/>
-                        <outlet property="questionField" destination="dCF-BL-dDa" id="HIQ-UX-KNe"/>
-                        <outlet property="trueButton" destination="CSn-ih-qRR" id="kyC-6T-ixm"/>
+                        <outlet property="playButton" destination="eic-Nx-foS" id="xTU-td-hY8"/>
+                        <outlet property="questionLabel" destination="dCF-BL-dDa" id="kBu-JI-6Te"/>
+                        <outlet property="responseLabel" destination="WY2-g9-4LQ" id="v5m-6d-6L0"/>
+                        <outletCollection property="answerButtons" destination="CSn-ih-qRR" collectionClass="NSMutableArray" id="MgP-0Y-PEC"/>
+                        <outletCollection property="answerButtons" destination="qYh-2d-v8I" collectionClass="NSMutableArray" id="FtV-7d-Yq0"/>
+                        <outletCollection property="answerButtons" destination="GRS-zR-thI" collectionClass="NSMutableArray" id="WSl-ba-SCp"/>
+                        <outletCollection property="answerButtons" destination="dcm-rB-Xey" collectionClass="NSMutableArray" id="gBa-wA-S13"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
