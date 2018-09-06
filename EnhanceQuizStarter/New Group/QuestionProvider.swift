@@ -11,17 +11,17 @@ import GameKit
 
 class QuestionProvider {
     let questions = [
-        Question(prompt: "This was the only president to server more than two consecutive terms",
+        Question(prompt: "This was the only president to server more than two consecutive terms.",
                  correctAnswer: "Franklin D. Roosevelt",
                  misdirectors: ["George Washington",
                                 "Woodrow Wilson",
                                 "Andrew Jackson"]),
-        Question(prompt: "Which of the following countries has the most residents",
+        Question(prompt: "Which of the following countries has the most residents?",
                  correctAnswer: "Nigeria",
                  misdirectors: ["Russia",
                                 "Iran",
                                 "Vietnam"]),
-        Question(prompt: "In what year was the United Nations founded",
+        Question(prompt: "In what year was the United Nations founded?",
                  correctAnswer: "1945",
                  misdirectors: ["1918",
                                 "1919",
@@ -88,7 +88,7 @@ class QuestionProvider {
          * The unique question is added to the new question array and the index of that
          * question is added to the indices array.
          */
-        for _ in 0...numQuestions {
+        for _ in 0..<numQuestions {
             var randomIndex = GKRandomSource.sharedRandom().nextInt(upperBound: numTotalQuestions)
             while questionIndices.contains(randomIndex) {
                 randomIndex += 1
