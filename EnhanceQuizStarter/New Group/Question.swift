@@ -10,4 +10,6 @@ struct Question {
     let prompt: String
     let correctAnswer: String
     let misdirectors: [String]
+    
+    //TODO: Add randomizer for misdirectors
 }
