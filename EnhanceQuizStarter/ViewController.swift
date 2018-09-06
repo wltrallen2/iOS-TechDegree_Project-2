@@ -66,13 +66,19 @@ class ViewController: UIViewController {
     
     func displayQuestion() {
         playButton.isHidden = true
+        responseLabel.isHidden = true
 
         if let question = quiz?.getNextQuestion() {
             questionLabel.text = question.prompt
+            
+            let responses = question.getCorrectAnswerAndMisdirectors(forNumberOfSlots: answerButtons.count)
+            var responseIndex = 0
+            
             for button in answerButtons {
                 button.isHidden = false
                 button.alpha = 1.0
-                //TODO: Display responses
+                button.setTitle(responses[responseIndex], for: UIControlState.normal)
+                responseIndex += 1
             }
         }
     }
@@ -88,6 +94,7 @@ class ViewController: UIViewController {
         
         //TODO: Enter message that displays how many questions correct out of how many answered.
         questionLabel.text = "Good game!"
+        responseLabel.text = "You correctly answered \(quiz!.score) out of \(questionsPerRound) questions!"
     }
     
     func nextRound() {
@@ -130,6 +137,8 @@ class ViewController: UIViewController {
             } else {
                 responseLabel.text = "Sorry! Wrong answer!"
             }
+            
+            responseLabel.isHidden = false
         }
         
         loadNextRound(delay: 2)
