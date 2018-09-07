@@ -24,17 +24,16 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var responseLabel: UILabel!
-    @IBOutlet var answerButtons: [UIButton]!
+    @IBOutlet weak var answerButtonStackView: UIStackView!
     @IBOutlet weak var playButton: UIButton!
+    
+    var answerButtons: [UIButton] = [UIButton]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         playButton.layer.cornerRadius = 8
-        for button in answerButtons {
-            button.layer.cornerRadius = 8
-        }
-        
+
         loadGameStartSound()
         playGameStartSound()
         showStartScreen()
@@ -69,7 +68,8 @@ class ViewController: UIViewController {
         if let question = quiz?.getNextQuestion() {
             questionLabel.text = question.prompt
             
-            let responses = question.getCorrectAnswerAndMisdirectors(forNumberOfSlots: answerButtons.count)
+            //FIXME: Change so that magic number is not included (4)
+            let responses = question.getCorrectAnswerAndMisdirectors(forNumberOfSlots: 4)
             var responseIndex = 0
             
             //TODO: Fix this so that it can handle 3 questions.
@@ -126,29 +126,37 @@ class ViewController: UIViewController {
     }
     
     func formatAnswerButtons(forNumberOfAnswers numAnswers: Int) {
-        //FIXME: This is calculating but not redrawing.
-        let responseLabelBottom = responseLabel.frame.origin.y + responseLabel.frame.size.height
-        let playButtonTop = playButton.frame.origin.y
+        let blueColor = UIColor(red: 48/255.0,
+                                green: 93/255.0,
+                                blue: 165/255.0,
+                                alpha: 1.0)
         
-        //FIXME: Repair code so that there aren't magic numbers (40 and 20)
-        let heightForButtonArray = playButtonTop - responseLabelBottom - 40
-        let cumulativeSpaceBetweenAnswerButtons = CGFloat((numAnswers - 1) * 20)
-        let heightForEachButton = (heightForButtonArray - cumulativeSpaceBetweenAnswerButtons) / CGFloat(numAnswers)
-        
-        var yCoordinate = responseLabelBottom + 20
-        for button in answerButtons {
-            let buttonCenterY = yCoordinate + (heightForEachButton / 2.0)
-            let newCenter = CGPoint(x: button.center.x, y: buttonCenterY)
-            
-            button.center = newCenter
-            
-            yCoordinate += CGFloat(heightForEachButton + 20)
+        if answerButtons.count > numAnswers {
+            let numButtonsToRemove = answerButtons.count - numAnswers
+            for _ in 0..<numButtonsToRemove {
+                let button = answerButtons[0]
+                answerButtonStackView.removeArrangedSubview(button)
+                answerButtons.remove(at: 0)
+            }
+        } else if answerButtons.count < numAnswers {
+            let numAdditionalButtons = numAnswers - answerButtons.count
+            for _ in 0..<numAdditionalButtons {
+                let button = UIButton(type: .system)
+                button.backgroundColor = blueColor
+                button.setTitleColor(UIColor.white, for: .normal)
+                button.layer.cornerRadius = 8
+                button.addTarget(self,
+                                 action: #selector(checkAnswer(_:)),
+                                 for: .touchUpInside)
+                answerButtonStackView.addArrangedSubview(button)
+                answerButtons.append(button)
+            }
         }
     }
     
     // MARK: - Actions
     
-    @IBAction func checkAnswer(_ sender: UIButton) {
+    @objc func checkAnswer(_ sender: UIButton) {
         if let userResponse = sender.titleLabel?.text {
             dimAnswerButtons()
             
@@ -168,7 +176,5 @@ class ViewController: UIViewController {
     @IBAction func playAgain(_ sender: UIButton) {
         runGame()
     }
-    
-
 }
 
