@@ -63,8 +63,7 @@ class QuestionProvider {
                                 "Japan"])
     ]
     
-    //TODO: Move the questionIndices out to a class variable to keep track of all questions asked in one given instance.
-    //TODO: Refractor Quiz to have an instance variable for the QuestionProvider to ensure unique questions in multiple rounds.
+    //TODO: Refractor to remove the questions from the array in order to make it easier to pass unique questions into the new array that will be returned?
     
     /// Returns a set of unique questions from the question bank. The number of questions
     /// returned is based on the withQuestionCount parameter.

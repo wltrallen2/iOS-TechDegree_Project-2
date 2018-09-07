@@ -13,8 +13,6 @@ import AudioToolbox
 
 class ViewController: UIViewController {
     
-    //TODO: Incorporate QuestionProvider into controller
-    
     // MARK: - Properties
     
     let questionsPerRound = 4
@@ -56,7 +54,7 @@ class ViewController: UIViewController {
     }
     
     func showStartScreen() {
-        
+        //TODO: Implement this helper function
     }
     
     func runGame() {
@@ -74,6 +72,8 @@ class ViewController: UIViewController {
             let responses = question.getCorrectAnswerAndMisdirectors(forNumberOfSlots: answerButtons.count)
             var responseIndex = 0
             
+            //TODO: Fix this so that it can handle 3 questions.
+            formatAnswerButtons(forNumberOfAnswers: 4)
             for button in answerButtons {
                 button.isHidden = false
                 button.alpha = 1.0
@@ -92,7 +92,6 @@ class ViewController: UIViewController {
         // Display play again button
         playButton.isHidden = false
         
-        //TODO: Enter message that displays how many questions correct out of how many answered.
         questionLabel.text = "Good game!"
         responseLabel.text = "You correctly answered \(quiz!.score) out of \(questionsPerRound) questions!"
     }
@@ -123,6 +122,27 @@ class ViewController: UIViewController {
     func dimAnswerButtons() {
         for button in answerButtons {
             button.alpha = 0.25
+        }
+    }
+    
+    func formatAnswerButtons(forNumberOfAnswers numAnswers: Int) {
+        //FIXME: This is calculating but not redrawing.
+        let responseLabelBottom = responseLabel.frame.origin.y + responseLabel.frame.size.height
+        let playButtonTop = playButton.frame.origin.y
+        
+        //FIXME: Repair code so that there aren't magic numbers (40 and 20)
+        let heightForButtonArray = playButtonTop - responseLabelBottom - 40
+        let cumulativeSpaceBetweenAnswerButtons = CGFloat((numAnswers - 1) * 20)
+        let heightForEachButton = (heightForButtonArray - cumulativeSpaceBetweenAnswerButtons) / CGFloat(numAnswers)
+        
+        var yCoordinate = responseLabelBottom + 20
+        for button in answerButtons {
+            let buttonCenterY = yCoordinate + (heightForEachButton / 2.0)
+            let newCenter = CGPoint(x: button.center.x, y: buttonCenterY)
+            
+            button.center = newCenter
+            
+            yCoordinate += CGFloat(heightForEachButton + 20)
         }
     }
     
