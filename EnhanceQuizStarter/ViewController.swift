@@ -13,6 +13,14 @@ import AudioToolbox
 
 class ViewController: UIViewController {
     
+    // MARK: - Enums
+    
+    enum Level {
+        case easy
+        case hard
+        case mixed
+    }
+    
     // MARK: - Properties
     
     let questionsPerRound = 4
@@ -28,6 +36,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var playButton: UIButton!
     
     var answerButtons: [UIButton] = [UIButton]()
+    var numQuestionsPerRound: Int = 4
+    var levelForRound: Level = .easy
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,10 +47,10 @@ class ViewController: UIViewController {
         loadGameStartSound()
         playGameStartSound()
         showStartScreen()
-        runGame()
+//        runGame()
     }
     
-    // MARK: - Helpers
+    // MARK: - Helpers: Sound
     
     func loadGameStartSound() {
         let path = Bundle.main.path(forResource: "GameSound", ofType: "wav")
@@ -52,13 +62,42 @@ class ViewController: UIViewController {
         AudioServicesPlaySystemSound(gameSound)
     }
     
+    // MARK: - Helpers: Pre-Game
+    
     func showStartScreen() {
         //TODO: Implement this helper function
+        questionLabel.text = "Welcome to Random Trivia!"
+        responseLabel.text = "What level game would you like to play?"
+        playButton.isHidden = true
+        
+        let gameOptions = ["Easy", "Hard", "Mix It Up"]
+        formatAnswerButtons(forNumberOfAnswers: gameOptions.count)
+        for button in answerButtons {
+            button.removeTarget(self, action: #selector(checkAnswer(_:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(chooseLevel(_:)), for: .touchUpInside)
+            let buttonIndex = answerButtons.index(of: button) ?? 0
+            button.setTitle(gameOptions[buttonIndex], for: .normal)
+        }
     }
     
-    func runGame() {
-        quiz = Quiz(withQuestionCount: questionsPerRound)
-        displayQuestion()
+    func setLevel(forUserChoice level: String) -> Level {
+        //TODO: Fix "Mix It Up" option to randomize number of questions
+        switch level {
+            case "Easy":
+                return Level.easy
+            case "Hard":
+                return Level.hard
+            default:
+                return Level.mixed
+        }
+    }
+    
+    
+    // MARK: - Helpers: Game
+    func dimAnswerButtons() {
+        for button in answerButtons {
+            button.alpha = 0.25
+        }
     }
     
     func displayQuestion() {
@@ -68,12 +107,11 @@ class ViewController: UIViewController {
         if let question = quiz?.getNextQuestion() {
             questionLabel.text = question.prompt
             
-            //FIXME: Change so that magic number is not included (4)
-            let responses = question.getCorrectAnswerAndMisdirectors(forNumberOfSlots: 4)
+            let numAnswers = getNumAnswers(forLevel: levelForRound)
+            let responses = question.getCorrectAnswerAndMisdirectors(forNumberOfSlots: numAnswers)
             var responseIndex = 0
             
-            //TODO: Fix this so that it can handle 3 questions.
-            formatAnswerButtons(forNumberOfAnswers: 4)
+            formatAnswerButtons(forNumberOfAnswers: numAnswers)
             for button in answerButtons {
                 button.isHidden = false
                 button.alpha = 1.0
@@ -96,38 +134,9 @@ class ViewController: UIViewController {
         responseLabel.text = "You correctly answered \(quiz!.score) out of \(questionsPerRound) questions!"
     }
     
-    func nextRound() {
-        if quiz != nil && quiz!.hasNextQuestion() {
-            // Continue game
-            displayQuestion()
-        } else {
-            // Game is over
-            displayScore()
-
-        }
-    }
-    
-    func loadNextRound(delay seconds: Int) {
-        // Converts a delay in seconds to nanoseconds as signed 64 bit integer
-        let delay = Int64(NSEC_PER_SEC * UInt64(seconds))
-        // Calculates a time value to execute the method given current time and delay
-        let dispatchTime = DispatchTime.now() + Double(delay) / Double(NSEC_PER_SEC)
-        
-        // Executes the nextRound method at the dispatch time on the main queue
-        DispatchQueue.main.asyncAfter(deadline: dispatchTime) {
-            self.nextRound()
-        }
-    }
-    
-    func dimAnswerButtons() {
-        for button in answerButtons {
-            button.alpha = 0.25
-        }
-    }
-    
     func formatAnswerButtons(forNumberOfAnswers numAnswers: Int) {
-        let blueColor = UIColor(red: 48/255.0,
-                                green: 93/255.0,
+        let blueColor = UIColor(red: 44/255.0,
+                                green: 97/255.0,
                                 blue: 165/255.0,
                                 alpha: 1.0)
         
@@ -154,7 +163,65 @@ class ViewController: UIViewController {
         }
     }
     
+    func getNumAnswers(forLevel level: Level) -> Int {
+        switch level {
+        case .easy: return 3
+        case .hard: return 4
+        default: return getRandomNumberOfAnswerSlots()
+        }
+    }
+    
+    func getRandomNumberOfAnswerSlots() -> Int {
+        return 3 + (GKRandomSource.sharedRandom().nextInt(upperBound: 2))
+    }
+    
+    func nextRound() {
+        if quiz != nil && quiz!.hasNextQuestion() {
+            // Continue game
+            displayQuestion()
+        } else {
+            // Game is over
+            displayScore()
+
+        }
+    }
+    
+    func loadNextRound(delay seconds: Int) {
+        // Converts a delay in seconds to nanoseconds as signed 64 bit integer
+        let delay = Int64(NSEC_PER_SEC * UInt64(seconds))
+        // Calculates a time value to execute the method given current time and delay
+        let dispatchTime = DispatchTime.now() + Double(delay) / Double(NSEC_PER_SEC)
+        
+        // Executes the nextRound method at the dispatch time on the main queue
+        DispatchQueue.main.asyncAfter(deadline: dispatchTime) {
+            self.nextRound()
+        }
+    }
+    
+    func runGame() {
+        quiz = Quiz(withQuestionCount: questionsPerRound)
+        displayQuestion()
+    }
+    
+
     // MARK: - Actions
+    
+    @objc func chooseLevel(_ sender: UIButton) {
+        if let userChoice = sender.titleLabel?.text {
+            levelForRound = setLevel(forUserChoice: userChoice)
+        }
+
+        for button in answerButtons {
+            if let index = answerButtons.index(of: button) {
+                // ERROR: Buttons are appearing at upper left corner of screen when "removed."
+                // Branching off here to attempt using .isHidden property for subviews in stack
+                answerButtonStackView.removeArrangedSubview(answerButtons[index])
+                answerButtons.remove(at: index)
+            }
+        }
+        
+        runGame()
+    }
     
     @objc func checkAnswer(_ sender: UIButton) {
         if let userResponse = sender.titleLabel?.text {
