@@ -35,7 +35,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var answerButtonStackView: UIStackView!
     @IBOutlet weak var playButton: UIButton!
     
-    var answerButtons: [UIButton] = [UIButton]()
+    var answerButtons = [UIButton]()
+    
+    //TODO: Change so that numQuestionsPerRound can change or so user can select lightning mode.
     var numQuestionsPerRound: Int = 4
     var levelForRound: Level = .easy
     
@@ -43,11 +45,17 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         playButton.layer.cornerRadius = 8
-
+        for subview in answerButtonStackView.arrangedSubviews {
+            if let button = subview as? UIButton {
+                button.layer.cornerRadius = 8
+                answerButtons.append(button)
+            }
+        }
+        
         loadGameStartSound()
         playGameStartSound()
-        showStartScreen()
-//        runGame()
+        
+        setOptions()
     }
     
     // MARK: - Helpers: Sound
@@ -64,24 +72,27 @@ class ViewController: UIViewController {
     
     // MARK: - Helpers: Pre-Game
     
-    func showStartScreen() {
-        //TODO: Implement this helper function
+    func setOptions() {
+        //TODO: Implement second option for number of questions or lightning round
         questionLabel.text = "Welcome to Random Trivia!"
         responseLabel.text = "What level game would you like to play?"
         playButton.isHidden = true
         
         let gameOptions = ["Easy", "Hard", "Mix It Up"]
-        formatAnswerButtons(forNumberOfAnswers: gameOptions.count)
         for button in answerButtons {
-            button.removeTarget(self, action: #selector(checkAnswer(_:)), for: .touchUpInside)
-            button.addTarget(self, action: #selector(chooseLevel(_:)), for: .touchUpInside)
-            let buttonIndex = answerButtons.index(of: button) ?? 0
-            button.setTitle(gameOptions[buttonIndex], for: .normal)
+            let buttonIndex = answerButtons.index(of: button)!
+            if buttonIndex < gameOptions.count {
+                button.removeTarget(self, action: #selector(checkAnswer(_:)), for: .touchUpInside)
+                button.addTarget(self, action: #selector(chooseLevel(_:)), for: .touchUpInside)
+                button.setTitle(gameOptions[buttonIndex], for: .normal)
+                button.isHidden = false
+            } else {
+                button.isHidden = true
+            }
         }
     }
     
     func setLevel(forUserChoice level: String) -> Level {
-        //TODO: Fix "Mix It Up" option to randomize number of questions
         switch level {
             case "Easy":
                 return Level.easy
@@ -91,7 +102,6 @@ class ViewController: UIViewController {
                 return Level.mixed
         }
     }
-    
     
     // MARK: - Helpers: Game
     func dimAnswerButtons() {
@@ -109,14 +119,17 @@ class ViewController: UIViewController {
             
             let numAnswers = getNumAnswers(forLevel: levelForRound)
             let responses = question.getCorrectAnswerAndMisdirectors(forNumberOfSlots: numAnswers)
-            var responseIndex = 0
             
-            formatAnswerButtons(forNumberOfAnswers: numAnswers)
             for button in answerButtons {
-                button.isHidden = false
-                button.alpha = 1.0
-                button.setTitle(responses[responseIndex], for: UIControlState.normal)
-                responseIndex += 1
+                if let buttonIndex = answerButtons.index(of: button) {
+                    if buttonIndex < responses.count {
+                        button.isHidden = false
+                        button.alpha = 1.0
+                        button.setTitle(responses[buttonIndex], for: UIControlState.normal)
+                    } else {
+                        button.isHidden = true
+                    }
+                }
             }
         }
     }
@@ -132,35 +145,6 @@ class ViewController: UIViewController {
         
         questionLabel.text = "Good game!"
         responseLabel.text = "You correctly answered \(quiz!.score) out of \(questionsPerRound) questions!"
-    }
-    
-    func formatAnswerButtons(forNumberOfAnswers numAnswers: Int) {
-        let blueColor = UIColor(red: 44/255.0,
-                                green: 97/255.0,
-                                blue: 165/255.0,
-                                alpha: 1.0)
-        
-        if answerButtons.count > numAnswers {
-            let numButtonsToRemove = answerButtons.count - numAnswers
-            for _ in 0..<numButtonsToRemove {
-                let button = answerButtons[0]
-                answerButtonStackView.removeArrangedSubview(button)
-                answerButtons.remove(at: 0)
-            }
-        } else if answerButtons.count < numAnswers {
-            let numAdditionalButtons = numAnswers - answerButtons.count
-            for _ in 0..<numAdditionalButtons {
-                let button = UIButton(type: .system)
-                button.backgroundColor = blueColor
-                button.setTitleColor(UIColor.white, for: .normal)
-                button.layer.cornerRadius = 8
-                button.addTarget(self,
-                                 action: #selector(checkAnswer(_:)),
-                                 for: .touchUpInside)
-                answerButtonStackView.addArrangedSubview(button)
-                answerButtons.append(button)
-            }
-        }
     }
     
     func getNumAnswers(forLevel level: Level) -> Int {
@@ -210,16 +194,16 @@ class ViewController: UIViewController {
         if let userChoice = sender.titleLabel?.text {
             levelForRound = setLevel(forUserChoice: userChoice)
         }
-
-        for button in answerButtons {
-            if let index = answerButtons.index(of: button) {
-                // ERROR: Buttons are appearing at upper left corner of screen when "removed."
-                // Branching off here to attempt using .isHidden property for subviews in stack
-                answerButtonStackView.removeArrangedSubview(answerButtons[index])
-                answerButtons.remove(at: index)
-            }
-        }
         
+        for button in answerButtons {
+            button.removeTarget(self,
+                                action: #selector(chooseLevel(_:)),
+                                for: .touchUpInside)
+            button.addTarget(self,
+                             action: #selector(checkAnswer(_:)),
+                             for: .touchUpInside)
+        }
+
         runGame()
     }
     
@@ -244,4 +228,3 @@ class ViewController: UIViewController {
         runGame()
     }
 }
-

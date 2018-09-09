@@ -26,6 +26,32 @@
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Hcp-tn-X4a">
                                 <rect key="frame" x="20" y="190.5" width="335" height="376.5"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BGB-g8-FYY">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="79"/>
+                                        <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.71947362023333339" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="First Answer"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pmp-aE-3x9">
+                                        <rect key="frame" x="0.0" y="99" width="335" height="79.5"/>
+                                        <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.71947362023333339" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Second Answer"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cwM-7S-mQL">
+                                        <rect key="frame" x="0.0" y="198.5" width="335" height="79"/>
+                                        <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.71947362023333339" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Third Answer"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P32-ag-SXl">
+                                        <rect key="frame" x="0.0" y="297.5" width="335" height="79"/>
+                                        <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.71947362023333339" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Fourth Answer"/>
+                                    </button>
+                                </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eic-Nx-foS">
                                 <rect key="frame" x="20" y="587" width="335" height="60"/>
@@ -67,7 +93,7 @@
                     </view>
                     <connections>
                         <outlet property="answerButtonStackView" destination="Hcp-tn-X4a" id="L5s-GX-se8"/>
-                        <outlet property="playButton" destination="eic-Nx-foS" id="xTU-td-hY8"/>
+                        <outlet property="playButton" destination="eic-Nx-foS" id="Wr6-2K-Qqm"/>
                         <outlet property="questionLabel" destination="dCF-BL-dDa" id="kBu-JI-6Te"/>
                         <outlet property="responseLabel" destination="WY2-g9-4LQ" id="v5m-6d-6L0"/>
                     </connections>
