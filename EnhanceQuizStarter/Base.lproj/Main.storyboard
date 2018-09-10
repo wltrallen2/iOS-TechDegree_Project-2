@@ -25,45 +25,46 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Hcp-tn-X4a">
-                                <rect key="frame" x="20" y="190.5" width="335" height="376.5"/>
+                                <rect key="frame" x="20" y="190.5" width="335" height="326.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BGB-g8-FYY">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="79"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="66.5"/>
                                         <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.71947362023333339" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="First Answer"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pmp-aE-3x9">
-                                        <rect key="frame" x="0.0" y="99" width="335" height="79.5"/>
+                                        <rect key="frame" x="0.0" y="86.5" width="335" height="67"/>
                                         <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.71947362023333339" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Second Answer"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cwM-7S-mQL">
-                                        <rect key="frame" x="0.0" y="198.5" width="335" height="79"/>
+                                        <rect key="frame" x="0.0" y="173.5" width="335" height="66.5"/>
                                         <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.71947362023333339" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Third Answer"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P32-ag-SXl">
-                                        <rect key="frame" x="0.0" y="297.5" width="335" height="79"/>
+                                        <rect key="frame" x="0.0" y="260" width="335" height="66.5"/>
                                         <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.71947362023333339" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Fourth Answer"/>
                                     </button>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eic-Nx-foS">
-                                <rect key="frame" x="20" y="587" width="335" height="60"/>
-                                <color key="backgroundColor" red="0.0" green="0.57647058819999997" blue="0.52941176469999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="pLB-KK-7zI">
+                                <rect key="frame" x="20" y="607" width="335" height="40"/>
+                                <color key="backgroundColor" red="1" green="0.69126820567500002" blue="0.0095486111111111119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="iDB-YS-50o"/>
+                                    <constraint firstAttribute="height" constant="40" id="WBc-4d-v7U"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Play Again"/>
+                                <state key="normal" title="Play Timed Lighting Round"/>
                                 <connections>
-                                    <action selector="playAgain:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0DS-Q9-gCH"/>
+                                    <action selector="playAgain:" destination="BYZ-38-t0r" eventType="touchUpInside" id="q1G-vk-DfU"/>
+                                    <action selector="playTimedGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RWC-e5-9Zr"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Response" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WY2-g9-4LQ">
@@ -72,28 +73,45 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eic-Nx-foS">
+                                <rect key="frame" x="20" y="537" width="335" height="60"/>
+                                <color key="backgroundColor" red="0.0" green="0.57647058819999997" blue="0.52941176469999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="iDB-YS-50o"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Play Standard Untimed Round"/>
+                                <connections>
+                                    <action selector="playAgain:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0DS-Q9-gCH"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.031372549020000001" green="0.16862745100000001" blue="0.24313725489999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="WY2-g9-4LQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="4wr-e9-IY5"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="pLB-KK-7zI" secondAttribute="bottom" constant="20" id="59E-gr-akE"/>
                             <constraint firstItem="dCF-BL-dDa" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="5WR-Xy-ISd"/>
                             <constraint firstItem="WY2-g9-4LQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="130" id="5hs-eX-XHL"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dCF-BL-dDa" secondAttribute="trailing" constant="20" id="BEa-0X-a8z"/>
                             <constraint firstItem="eic-Nx-foS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="I2Q-uG-VzZ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eic-Nx-foS" secondAttribute="trailing" constant="20" id="JJy-Bq-vzk"/>
+                            <constraint firstItem="pLB-KK-7zI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="K3a-nk-KhT"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Hcp-tn-X4a" secondAttribute="trailing" constant="20" id="RPP-b3-o7T"/>
+                            <constraint firstItem="pLB-KK-7zI" firstAttribute="top" secondItem="eic-Nx-foS" secondAttribute="bottom" constant="10" id="Sqb-Wu-ZrJ"/>
                             <constraint firstItem="Hcp-tn-X4a" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="TlU-bY-NW7"/>
                             <constraint firstItem="eic-Nx-foS" firstAttribute="top" secondItem="Hcp-tn-X4a" secondAttribute="bottom" constant="20" id="Umn-qz-r9u"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="eic-Nx-foS" secondAttribute="bottom" constant="20" id="dgo-Gl-jxF"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pLB-KK-7zI" secondAttribute="trailing" constant="20" id="ZrP-tX-uOn"/>
                             <constraint firstItem="dCF-BL-dDa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="eQp-fV-a7O"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="WY2-g9-4LQ" secondAttribute="trailing" constant="20" id="o1r-lA-o1A"/>
                             <constraint firstItem="Hcp-tn-X4a" firstAttribute="top" secondItem="WY2-g9-4LQ" secondAttribute="bottom" constant="20" id="of7-P4-M6i"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eic-Nx-foS" secondAttribute="trailing" constant="20" id="vbM-YQ-GfH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="answerButtonStackView" destination="Hcp-tn-X4a" id="L5s-GX-se8"/>
                         <outlet property="playButton" destination="eic-Nx-foS" id="Wr6-2K-Qqm"/>
+                        <outlet property="playTimedButton" destination="pLB-KK-7zI" id="FbN-7c-RAX"/>
                         <outlet property="questionLabel" destination="dCF-BL-dDa" id="kBu-JI-6Te"/>
                         <outlet property="responseLabel" destination="WY2-g9-4LQ" id="v5m-6d-6L0"/>
                     </connections>

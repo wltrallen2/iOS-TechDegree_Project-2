@@ -7,7 +7,6 @@
 //
 
 class Quiz {
-    //TODO: Use unaskedQuestions array to help ensure uniqueness of questions for each instance of a quiz? When a question is asked, store it in a currentQuestion property and remove it from the unaskedQuestions array. Once asked, the currentQuestion property can be overridden with the next question.
 
     let questions: [Question]
     

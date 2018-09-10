@@ -40,10 +40,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var responseLabel: UILabel!
     @IBOutlet weak var answerButtonStackView: UIStackView!
     @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var playTimedButton: UIButton!
     
     var answerButtons = [UIButton]()
     
-    //TODO: Change so that numQuestionsPerRound can change or so user can select lightning mode.
+    // TODO: For future implementation, allow user to select the number of questions per round.
     var numQuestionsPerRound: Int = 4
     var levelForRound: Level = .easy
     
@@ -51,6 +52,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         playButton.layer.cornerRadius = 8
+        playTimedButton.layer.cornerRadius = 8
         for subview in answerButtonStackView.arrangedSubviews {
             if let button = subview as? UIButton {
                 button.layer.cornerRadius = 8
@@ -78,11 +80,23 @@ class ViewController: UIViewController {
     
     // MARK: - Helpers: Pre-Game
     
+    func chooseGameType() {
+        questionLabel.text = ""
+        responseLabel.text = ""
+        
+        for button in answerButtons {
+            button.isHidden = true
+        }
+        
+        playButton.isHidden = false
+        playTimedButton.isHidden = false
+    }
+    
     func setOptions() {
-        //TODO: Implement second option for number of questions or lightning round
         questionLabel.text = "Welcome to Random Trivia!"
         responseLabel.text = "What level game would you like to play?"
         playButton.isHidden = true
+        playTimedButton.isHidden = true
         
         let gameOptions = ["Easy", "Hard", "Mix It Up"]
         for button in answerButtons {
@@ -117,7 +131,6 @@ class ViewController: UIViewController {
     }
     
     func displayQuestion() {
-        playButton.isHidden = true
         responseLabel.isHidden = true
 
         if let question = quiz?.getNextQuestion() {
@@ -147,11 +160,11 @@ class ViewController: UIViewController {
             button.isHidden = true
         }
         
-        // Display play again button
-        playButton.isHidden = false
-        
         questionLabel.text = "Good game!"
         responseLabel.text = "You correctly answered \(quiz!.score) out of \(questionsPerRound) questions!"
+        
+        // Prompt user for next game
+        chooseGameType()
     }
     
     func getNumAnswers(forLevel level: Level) -> Int {
@@ -201,8 +214,17 @@ class ViewController: UIViewController {
     }
     
     func runGame() {
+        playButton.isHidden = true
+        playTimedButton.isHidden = true
+        
         quiz = Quiz(withQuestionCount: questionsPerRound)
         displayQuestion()
+    }
+    
+    func runGameWithTimer() {
+        //TODO: Implement Timer
+        
+        runGame()
     }
     
 
@@ -222,7 +244,7 @@ class ViewController: UIViewController {
                              for: .touchUpInside)
         }
 
-        runGame()
+        chooseGameType()
     }
     
     @objc func checkAnswer(_ sender: UIButton) {
@@ -247,5 +269,9 @@ class ViewController: UIViewController {
     
     @IBAction func playAgain(_ sender: UIButton) {
         runGame()
+    }
+    
+    @IBAction func playTimedGame(_ sender: UIButton) {
+        runGameWithTimer()
     }
 }

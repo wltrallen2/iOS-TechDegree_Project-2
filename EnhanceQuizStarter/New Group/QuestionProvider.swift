@@ -63,41 +63,22 @@ class QuestionProvider {
                                 "Japan"])
     ]
     
-    //TODO: Refractor to remove the questions from the array in order to make it easier to pass unique questions into the new array that will be returned?
-    
     /// Returns a set of unique questions from the question bank. The number of questions
     /// returned is based on the withQuestionCount parameter.
     func getSetOfRandomQuestions(withQuestionCount numQuestions: Int) -> [Question] {
-        // Returns the full questions array if the number of questions requested
-        // is equal to or greater than the number of questions in the bank.
-        if numQuestions >= questions.count {
-            return questions
+        var numberOfQuestionsLeft = numQuestions
+        var questionArray = [Question]()
+
+        while numberOfQuestionsLeft >= questions.count {
+            questionArray.append(contentsOf: questions)
+            numberOfQuestionsLeft -= questions.count
         }
         
-        // Else, creates an empty Question array and an array to keep track
-        // of the indices of each question that will be added to the new array.
-        var questionArray = [Question]()
-        
-        let numTotalQuestions = questions.count
-        var questionIndices = [Int]()
-        
-        /* Generates a random number between 0 and the number of questions less one.
-         * Then, checks to see if that question has already been used from the question bank.
-         * If so, the index is modified until it matches a question that has not been added.
-         * The unique question is added to the new question array and the index of that
-         * question is added to the indices array.
-         */
-        for _ in 0..<numQuestions {
-            var randomIndex = GKRandomSource.sharedRandom().nextInt(upperBound: numTotalQuestions)
-            while questionIndices.contains(randomIndex) {
-                randomIndex += 1
-                if randomIndex >= numTotalQuestions {
-                    randomIndex = 0
-                }
-            }
-            
-            questionArray.append(questions[randomIndex])
-            questionIndices.append(randomIndex)
+        var questionBank = Array(questions)
+        for _ in 1...numQuestions {
+            let randomIndex = GKRandomSource.sharedRandom().nextInt(upperBound: questionBank.count)
+            questionArray.append(questionBank[randomIndex])
+            questionBank.remove(at: randomIndex)
         }
         
         return questionArray
