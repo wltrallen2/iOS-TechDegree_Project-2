@@ -21,6 +21,12 @@ class ViewController: UIViewController {
         case mixed
     }
     
+    struct GameColors {
+        static let blue = UIColor(red: 0.0, green: 145/255.0, blue: 183/255.0, alpha: 1.0)
+        static let red = UIColor(red: 214.0/255.0, green: 0.0, blue: 0.0, alpha: 1.0)
+        static let green = UIColor(red: 0.0, green: 118/255.0, blue: 0, alpha: 1.0)
+    }
+    
     // MARK: - Properties
     
     let questionsPerRound = 4
@@ -126,6 +132,7 @@ class ViewController: UIViewController {
                         button.isHidden = false
                         button.alpha = 1.0
                         button.setTitle(responses[buttonIndex], for: UIControlState.normal)
+                        button.backgroundColor = GameColors.blue
                     } else {
                         button.isHidden = true
                     }
@@ -157,6 +164,17 @@ class ViewController: UIViewController {
     
     func getRandomNumberOfAnswerSlots() -> Int {
         return 3 + (GKRandomSource.sharedRandom().nextInt(upperBound: 2))
+    }
+    
+    func highlightCorrectAnswer() {
+        if let correctAnswer = quiz?.getCurrentQuestion()?.correctAnswer {
+            for button in answerButtons {
+                if button.titleLabel?.text == correctAnswer {
+                    button.backgroundColor = GameColors.green
+                    button.alpha = 1.0
+                }
+            }
+        }
     }
     
     func nextRound() {
@@ -210,16 +228,19 @@ class ViewController: UIViewController {
     @objc func checkAnswer(_ sender: UIButton) {
         if let userResponse = sender.titleLabel?.text {
             dimAnswerButtons()
+            sender.alpha = 1.0
             
             if quiz != nil && quiz!.isAnsweredCorrectly(withUserResponse: userResponse) {
                 responseLabel.text = "Correct!"
             } else {
                 responseLabel.text = "Sorry! Wrong answer!"
+                sender.backgroundColor = GameColors.red
             }
             
+            highlightCorrectAnswer()
             responseLabel.isHidden = false
         }
-        
+
         loadNextRound(delay: 2)
     }
     

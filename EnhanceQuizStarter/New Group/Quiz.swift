@@ -32,6 +32,15 @@ class Quiz {
         return currentQuestionIndex + 1 < questions.count
     }
     
+    ///Returns the current question
+    func getCurrentQuestion() -> Question? {
+        if currentQuestionIndex >= 0 {
+            return questions[currentQuestionIndex]
+        }
+        
+        return nil
+    }
+    
     /// Returns a question if there are additional questions left in the question bank,
     /// or nil if there are no additional questions left in the question bank.
     func getNextQuestion() -> Question? {
