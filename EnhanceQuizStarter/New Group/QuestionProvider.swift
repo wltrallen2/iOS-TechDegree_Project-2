@@ -74,11 +74,13 @@ class QuestionProvider {
             numberOfQuestionsLeft -= questions.count
         }
         
-        var questionBank = Array(questions)
-        for _ in 1...numQuestions {
-            let randomIndex = GKRandomSource.sharedRandom().nextInt(upperBound: questionBank.count)
-            questionArray.append(questionBank[randomIndex])
-            questionBank.remove(at: randomIndex)
+        if numberOfQuestionsLeft > 0 {
+            var questionBank = Array(questions)
+            for _ in 1...numQuestions {
+                let randomIndex = GKRandomSource.sharedRandom().nextInt(upperBound: questionBank.count)
+                questionArray.append(questionBank[randomIndex])
+                questionBank.remove(at: randomIndex)
+            }
         }
         
         return questionArray

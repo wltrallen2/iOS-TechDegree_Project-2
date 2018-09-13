@@ -13,16 +13,17 @@ class Quiz {
     var currentQuestionIndex: Int = -1 // No question is loaded at initialization of game
     var score: Int = 0
     
+    
     /// Initializes an instance of Quiz that has the number of questions as passed
     /// through the parameter withQuestionCount.
     init(withQuestionCount numQuestions: Int) {
         self.questions = QuestionProvider().getSetOfRandomQuestions(withQuestionCount: numQuestions)
     }
     
-    /// Initializes an instance of Quiz with the default value of four questions.
+    /// Initializes an instance of Quiz using all questions in the quesiton bank.
     convenience init() {
-        let numDefaultQuestions = 4
-        self.init(withQuestionCount: numDefaultQuestions)
+        let numQuestions = QuestionProvider().questions.count
+        self.init(withQuestionCount: numQuestions)
     }
     
     /// Returns a Bool that is true is there are additional questions left in the quiz,
@@ -49,6 +50,10 @@ class Quiz {
         
         currentQuestionIndex += 1
         return questions[currentQuestionIndex]
+    }
+    
+    func totalQuestionsAnswered() -> Int {
+        return currentQuestionIndex + 1
     }
     
     /// Returns a Bool that is true if the question is answered correctly, and

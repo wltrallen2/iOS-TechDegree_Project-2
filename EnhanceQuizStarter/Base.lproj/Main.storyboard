@@ -32,24 +32,36 @@
                                         <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.71947362023333339" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="First Answer"/>
+                                        <state key="disabled">
+                                            <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pmp-aE-3x9">
                                         <rect key="frame" x="0.0" y="86.5" width="335" height="67"/>
                                         <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.71947362023333339" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Second Answer"/>
+                                        <state key="disabled">
+                                            <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cwM-7S-mQL">
                                         <rect key="frame" x="0.0" y="173.5" width="335" height="66.5"/>
                                         <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.71947362023333339" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Third Answer"/>
+                                        <state key="disabled">
+                                            <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P32-ag-SXl">
                                         <rect key="frame" x="0.0" y="260" width="335" height="66.5"/>
                                         <color key="backgroundColor" red="0.0" green="0.56904578210000001" blue="0.71947362023333339" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Fourth Answer"/>
+                                        <state key="disabled">
+                                            <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -86,6 +98,12 @@
                                     <action selector="playAgain:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0DS-Q9-gCH"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hBM-c6-0bA">
+                                <rect key="frame" x="20" y="537" width="335" height="110"/>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="60"/>
+                                <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.031372549020000001" green="0.16862745100000001" blue="0.24313725489999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -94,17 +112,21 @@
                             <constraint firstItem="dCF-BL-dDa" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="5WR-Xy-ISd"/>
                             <constraint firstItem="WY2-g9-4LQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="130" id="5hs-eX-XHL"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dCF-BL-dDa" secondAttribute="trailing" constant="20" id="BEa-0X-a8z"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hBM-c6-0bA" secondAttribute="trailing" constant="20" id="GX1-MI-cGh"/>
                             <constraint firstItem="eic-Nx-foS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="I2Q-uG-VzZ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eic-Nx-foS" secondAttribute="trailing" constant="20" id="JJy-Bq-vzk"/>
                             <constraint firstItem="pLB-KK-7zI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="K3a-nk-KhT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hBM-c6-0bA" secondAttribute="bottom" constant="20" id="Ou4-bX-7Ys"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Hcp-tn-X4a" secondAttribute="trailing" constant="20" id="RPP-b3-o7T"/>
                             <constraint firstItem="pLB-KK-7zI" firstAttribute="top" secondItem="eic-Nx-foS" secondAttribute="bottom" constant="10" id="Sqb-Wu-ZrJ"/>
                             <constraint firstItem="Hcp-tn-X4a" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="TlU-bY-NW7"/>
                             <constraint firstItem="eic-Nx-foS" firstAttribute="top" secondItem="Hcp-tn-X4a" secondAttribute="bottom" constant="20" id="Umn-qz-r9u"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pLB-KK-7zI" secondAttribute="trailing" constant="20" id="ZrP-tX-uOn"/>
+                            <constraint firstItem="hBM-c6-0bA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="dKU-wm-cbA"/>
                             <constraint firstItem="dCF-BL-dDa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="eQp-fV-a7O"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="WY2-g9-4LQ" secondAttribute="trailing" constant="20" id="o1r-lA-o1A"/>
                             <constraint firstItem="Hcp-tn-X4a" firstAttribute="top" secondItem="WY2-g9-4LQ" secondAttribute="bottom" constant="20" id="of7-P4-M6i"/>
+                            <constraint firstItem="hBM-c6-0bA" firstAttribute="top" secondItem="Hcp-tn-X4a" secondAttribute="bottom" constant="20" id="uRe-Zp-kk8"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -114,6 +136,7 @@
                         <outlet property="playTimedButton" destination="pLB-KK-7zI" id="FbN-7c-RAX"/>
                         <outlet property="questionLabel" destination="dCF-BL-dDa" id="kBu-JI-6Te"/>
                         <outlet property="responseLabel" destination="WY2-g9-4LQ" id="v5m-6d-6L0"/>
+                        <outlet property="timerLabel" destination="hBM-c6-0bA" id="8h8-bI-4Cq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
