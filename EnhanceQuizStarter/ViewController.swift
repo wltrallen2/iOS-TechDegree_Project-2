@@ -154,11 +154,11 @@ class ViewController: UIViewController {
                 for button in answerButtons {
                     if let buttonIndex = answerButtons.index(of: button) {
                         if buttonIndex < responses.count {
+                            button.setTitle(responses[buttonIndex], for: UIControlState.normal)
+                            button.backgroundColor = GameColors.blue
                             button.isEnabled = true
                             button.isHidden = false
                             button.alpha = 1.0
-                            button.setTitle(responses[buttonIndex], for: UIControlState.normal)
-                            button.backgroundColor = GameColors.blue
                         } else {
                             button.isHidden = true
                         }
