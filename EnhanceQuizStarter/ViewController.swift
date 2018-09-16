@@ -69,23 +69,11 @@ class ViewController: UIViewController {
             }
         }
         
-        loadGameStartSound()
-        playGameStartSound()
-        
+        GameSound(forResource: "GameSound", ofType: "wav").play()
+
         setOptions()
     }
     
-    // MARK: - Helpers: Sound
-    
-    func loadGameStartSound() {
-        let path = Bundle.main.path(forResource: "GameSound", ofType: "wav")
-        let soundUrl = URL(fileURLWithPath: path!)
-        AudioServicesCreateSystemSoundID(soundUrl as CFURL, &gameSound)
-    }
-    
-    func playGameStartSound() {
-        AudioServicesPlaySystemSound(gameSound)
-    }
     
     // MARK: - Helpers: Pre-Game
     
@@ -155,7 +143,6 @@ class ViewController: UIViewController {
     }
     
     func displayQuestion() {
-        //FIXME: I think this is where the "Game keeps going" issue is happening?"
         if !isTimedGame || secondsLeft > 0 {
             if let question = quiz?.getNextQuestion() {
                 responseLabel.isHidden = true
@@ -252,6 +239,8 @@ class ViewController: UIViewController {
             runTimer()
         }
         
+        GameSound(forResource: "GameSound", ofType: "wav").play()
+        
         displayQuestion()
     }
 
@@ -281,8 +270,10 @@ class ViewController: UIViewController {
             
             if quiz != nil && quiz!.isAnsweredCorrectly(withUserResponse: userResponse) {
                 responseLabel.text = "🎉🎉🎉 Correct! 🎉🎉🎉"
+                GameSound(forResource: "Bell", ofType: "wav").play()
             } else {
                 responseLabel.text = "😣😖😫 Sorry! Wrong answer! 😫😖😣"
+                GameSound(forResource: "Buzz", ofType: "wav").play()
                 sender.backgroundColor = GameColors.red
             }
             
