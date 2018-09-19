@@ -9,7 +9,10 @@
 
 import GameKit
 
+/// QuestionProvider is a class that serves as a data source. It contains an array of Question objects as well as methods to return a random set of Question objects.
 class QuestionProvider {
+    // MARK: - Question Bank
+    // **************************************************************************************
     let questions = [
         Question(prompt: "This was the only president to server more than two consecutive terms.",
                  correctAnswer: "Franklin D. Roosevelt",
@@ -63,8 +66,15 @@ class QuestionProvider {
                                 "Japan"])
     ]
     
-    /// Returns a set of unique questions from the question bank. The number of questions
-    /// returned is based on the withQuestionCount parameter.
+    // MARK: - Methods
+    // **************************************************************************************
+    /// Returns an array that contains all of the questions in the question bank in a random order.
+    func getAllQuestionsInRandomOrder() -> [Question] {
+        let numQuestions = questions.count
+        return getSetOfRandomQuestions(withQuestionCount: numQuestions)
+    }
+
+    /// Returns a set of unique questions from the question bank. The number of questions returned is based on the withQuestionCount parameter.
     func getSetOfRandomQuestions(withQuestionCount numQuestions: Int) -> [Question] {
         var numberOfQuestionsLeft = numQuestions
         var questionArray = [Question]()
@@ -86,8 +96,4 @@ class QuestionProvider {
         return questionArray
     }
     
-    func getAllQuestionsInRandomOrder() -> [Question] {
-        let numQuestions = questions.count
-        return getSetOfRandomQuestions(withQuestionCount: numQuestions)
-    }
 }

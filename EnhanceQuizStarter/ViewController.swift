@@ -67,7 +67,6 @@ class ViewController: UIViewController {
     }
     
     
-    // FIXME: Finish documentation and comments and clean up code before submitting.
     // MARK: - Helpers: Pre-Game
     // **************************************************************************************
     /// Create a new instance of the Quiz class and sets the isTimedGame property
