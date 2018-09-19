@@ -106,7 +106,7 @@ class Quiz {
     
     /// Returns a random number between the number of potential answers for the easy level and the number of potential answers for the hard level, inclusive.
     func getRandomNumberOfAnswerSlots() -> Int {
-        let upperBound = getNumAnswers(forLevel: .hard) - getNumAnswers(forLevel: .easy)
+        let upperBound = getNumAnswers(forLevel: .hard) - getNumAnswers(forLevel: .easy) + 1
         return getNumAnswers(forLevel: .easy) + (GKRandomSource.sharedRandom().nextInt(upperBound: upperBound))
     }
     
