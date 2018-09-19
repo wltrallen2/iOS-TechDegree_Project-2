@@ -85,4 +85,9 @@ class QuestionProvider {
         
         return questionArray
     }
+    
+    func getAllQuestionsInRandomOrder() -> [Question] {
+        let numQuestions = questions.count
+        return getSetOfRandomQuestions(withQuestionCount: numQuestions)
+    }
 }

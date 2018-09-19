@@ -13,13 +13,7 @@ import AudioToolbox
 
 class ViewController: UIViewController {
     
-    // MARK: - Enums
-    
-    enum Level {
-        case easy
-        case hard
-        case mixed
-    }
+    // MARK: - Structs
     
     struct GameColors {
         static let blue = UIColor(red: 0.0, green: 145/255.0, blue: 183/255.0, alpha: 1.0)
@@ -27,23 +21,11 @@ class ViewController: UIViewController {
         static let green = UIColor(red: 0.0, green: 118/255.0, blue: 0, alpha: 1.0)
     }
     
-    // MARK: - Constants
-    // TODO: For future implementation, allow user to select the number of questions per round and length of timed rounds
-    let numQuestionsPerRound: Int = 4
-    let totalSecondsForTimedRound: Int = 15
-    
     // MARK: - Properties
     
-    let questionsPerRound = 4
     var quiz: Quiz?
-
-    var gameSound: SystemSoundID = 0
     var answerButtons = [UIButton]()
-    var levelForRound: Level = .easy
-
-    var secondsLeft: Int = 0
     var timer = Timer()
-    var isTimedGame: Bool = false
     
     
     // MARK: - Outlets
@@ -70,14 +52,50 @@ class ViewController: UIViewController {
         }
         
         GameSound(forResource: "GameSound", ofType: "wav").play()
-
+        
+        questionLabel.text = "Welcome to Random Trivia!"
+        responseLabel.text = ""
         setOptions()
     }
     
     
     // MARK: - Helpers: Pre-Game
     
-    func chooseGameType() {
+    // TODO: Finish documentation and comments and clean up code before submitting.
+    func loadQuiz() {
+        quiz = Quiz()
+    }
+
+    func setOptions() {
+        promptForTimedMode()
+        
+        // promptForLevel() will be called when a user taps the timed mode button of their choice
+    }
+    
+    func promptForLevel() {
+        responseLabel.text = "What level game would you like to play?"
+        responseLabel.isHidden = false
+        
+        playButton.isHidden = true
+        playTimedButton.isHidden = true
+
+        let gameOptions = Quiz.gameLevels
+        for button in answerButtons {
+            let buttonIndex = answerButtons.index(of: button)!
+            if buttonIndex < gameOptions.count {
+                button.removeTarget(self, action: #selector(checkAnswer(_:)), for: .touchUpInside)
+                button.addTarget(self, action: #selector(chooseLevel(_:)), for: .touchUpInside)
+                button.setTitle(gameOptions[buttonIndex], for: .normal)
+                enableAndFormat(button: button)
+            } else {
+                button.isHidden = true
+            }
+        }
+        
+        // runGame() will be called from the chooseLevel(_ :) target action
+    }
+    
+    func promptForTimedMode() {
         for button in answerButtons {
             button.isHidden = true
         }
@@ -86,55 +104,26 @@ class ViewController: UIViewController {
         playTimedButton.isHidden = false
     }
     
-    
-    func setOptions() {
-        questionLabel.text = "Welcome to Random Trivia!"
-        responseLabel.text = "What level game would you like to play?"
-        playButton.isHidden = true
-        playTimedButton.isHidden = true
-        
-        let gameOptions = ["Easy", "Hard", "Mix It Up"]
-        for button in answerButtons {
-            let buttonIndex = answerButtons.index(of: button)!
-            if buttonIndex < gameOptions.count {
-                button.removeTarget(self, action: #selector(checkAnswer(_:)), for: .touchUpInside)
-                button.addTarget(self, action: #selector(chooseLevel(_:)), for: .touchUpInside)
-                button.setTitle(gameOptions[buttonIndex], for: .normal)
-                button.isHidden = false
-            } else {
-                button.isHidden = true
-            }
-        }
-    }
-    
-    func setLevel(forUserChoice level: String) -> Level {
-        switch level {
-            case "Easy":
-                return Level.easy
-            case "Hard":
-                return Level.hard
-            default:
-                return Level.mixed
-        }
-    }
-    
     // MARK: - Helpers: Timer
-    
     func runTimer() {
-        secondsLeft = totalSecondsForTimedRound
+        quiz?.runTimer(forTargetViewController: self,
+                       usingSelector: #selector(updateTimer))
+        updateTimerText()
         timerLabel.isHidden = false
-        timer = Timer.scheduledTimer(timeInterval: 1,
-                                     target: self,
-                                     selector: #selector(updateTimer),
-                                     userInfo: nil,
-                                     repeats: true)
     }
     
     func updateTimerText() {
-        timerLabel.text = "\(secondsLeft)"
+        timerLabel.text = "\(quiz!.secondsLeft)"
     }
     
     // MARK: - Helpers: Game
+    func enableAndFormat(button: UIButton) {
+        button.backgroundColor = GameColors.blue
+        button.alpha = 1.0
+        button.isEnabled = true
+        button.isHidden = false
+    }
+    
     func dimAnswerButtons() {
         for button in answerButtons {
             button.alpha = 0.25
@@ -143,25 +132,20 @@ class ViewController: UIViewController {
     }
     
     func displayQuestion() {
-        if !isTimedGame || secondsLeft > 0 {
-            if let question = quiz?.getNextQuestion() {
-                responseLabel.isHidden = true
-                questionLabel.text = question.prompt
-                
-                let numAnswers = getNumAnswers(forLevel: levelForRound)
-                let responses = question.getCorrectAnswerAndMisdirectors(forNumberOfSlots: numAnswers)
-                
-                for button in answerButtons {
-                    if let buttonIndex = answerButtons.index(of: button) {
-                        if buttonIndex < responses.count {
-                            button.setTitle(responses[buttonIndex], for: UIControlState.normal)
-                            button.backgroundColor = GameColors.blue
-                            button.isEnabled = true
-                            button.isHidden = false
-                            button.alpha = 1.0
-                        } else {
-                            button.isHidden = true
-                        }
+        if let question = quiz?.getNextQuestion() {
+            responseLabel.isHidden = true
+            questionLabel.text = question.prompt
+            
+            let responses = quiz!.getLevelledResponsesForCurrentQuestion()
+            
+            for button in answerButtons {
+                if let buttonIndex = answerButtons.index(of: button) {
+                    if buttonIndex < responses.count {
+                        button.setTitle(responses[buttonIndex], for: UIControlState.normal)
+                        button.backgroundColor = GameColors.blue
+                        enableAndFormat(button: button)
+                    } else {
+                        button.isHidden = true
                     }
                 }
             }
@@ -176,24 +160,11 @@ class ViewController: UIViewController {
         
         questionLabel.text = "Game over!"
         responseLabel.text = "You correctly answered \(quiz!.score) out of \(quiz!.totalQuestionsAnswered()) questions!"
-        
         responseLabel.isHidden = false
         
-        // Prompt user for next game
-        chooseGameType()
+        setOptions()
     }
     
-    func getNumAnswers(forLevel level: Level) -> Int {
-        switch level {
-        case .easy: return 3
-        case .hard: return 4
-        default: return getRandomNumberOfAnswerSlots()
-        }
-    }
-    
-    func getRandomNumberOfAnswerSlots() -> Int {
-        return 3 + (GKRandomSource.sharedRandom().nextInt(upperBound: 2))
-    }
     
     func highlightCorrectAnswer() {
         if let correctAnswer = quiz?.getCurrentQuestion()?.correctAnswer {
@@ -208,11 +179,9 @@ class ViewController: UIViewController {
     
     func nextRound() {
         if quiz != nil && quiz!.hasNextQuestion() {
-            // Continue game
-            displayQuestion()
+            displayQuestion()   // Continue game.
         } else {
-            // Game is over
-            displayScore()
+            displayScore()      // Game is over.
         }
     }
     
@@ -232,10 +201,7 @@ class ViewController: UIViewController {
         playButton.isHidden = true
         playTimedButton.isHidden = true
         
-        if !isTimedGame {
-            quiz = Quiz(withQuestionCount: questionsPerRound)
-        } else {
-            quiz = Quiz()
+        if quiz!.isTimedGame {
             runTimer()
         }
         
@@ -248,7 +214,7 @@ class ViewController: UIViewController {
     
     @objc func chooseLevel(_ sender: UIButton) {
         if let userChoice = sender.titleLabel?.text {
-            levelForRound = setLevel(forUserChoice: userChoice)
+            quiz!.setLevel(forUserChoice: userChoice)
         }
         
         for button in answerButtons {
@@ -260,7 +226,7 @@ class ViewController: UIViewController {
                              for: .touchUpInside)
         }
 
-        chooseGameType()
+        runGame()
     }
     
     @objc func checkAnswer(_ sender: UIButton) {
@@ -286,22 +252,20 @@ class ViewController: UIViewController {
     
     
     @IBAction func playAgain(_ sender: UIButton) {
-        isTimedGame = false
-        runGame()
+        loadQuiz()
+        quiz!.isTimedGame = false
+        promptForLevel()
     }
     
     @IBAction func playTimedGame(_ sender: UIButton) {
-        isTimedGame = true
-        secondsLeft = totalSecondsForTimedRound
+        loadQuiz()
+        quiz!.isTimedGame = true
         updateTimerText()
-        runGame()
+        promptForLevel()
     }
     
     @objc func updateTimer() {
-        secondsLeft -= 1
-
-        if secondsLeft <= 0 {
-            timer.invalidate()
+        if quiz!.updateTimer() <= 0 {
             displayScore()
             timerLabel.isHidden = true
         }
