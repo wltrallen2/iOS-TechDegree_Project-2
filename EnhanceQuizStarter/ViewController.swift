@@ -157,7 +157,7 @@ class ViewController: UIViewController {
             for button in answerButtons {
                 if let buttonIndex = answerButtons.index(of: button) {
                     if buttonIndex < responses.count {
-                        button.setTitle(responses[buttonIndex], for: UIControlState.normal)
+                        button.setTitle(responses[buttonIndex], for: UIControl.State.normal)
                         enableAndFormat(button: button)
                     } else {
                         button.isHidden = true
